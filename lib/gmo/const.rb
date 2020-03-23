@@ -29,6 +29,7 @@ module Gmo
       :bank_id               => "Bank_ID",
       :branch_code           => "Branch_Code",
       :branch_code_jp        => "Branch_Code_Jpbank",
+      :brand                 => "Brand",
       :cancel_amount         => "CancelAmount",
       :cancel_tax            => "CancelTax",
       :card_name             => "CardName",
