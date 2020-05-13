@@ -12,11 +12,12 @@ module Gmo
   class GMOError < StandardError
     ERROR_INFO_SEPARATOR = '|'.freeze
 
-    private
-
+    class << self
       def error_message(info, locale)
-        ::Gmo::Const::API_ERROR_MESSAGES[locale][info] || info
+        messages = ::Gmo::Const::API_ERROR_MESSAGES[locale] || ::Gmo::Const::API_ERROR_MESSAGES[:en]
+        messages[info] || info
       end
+    end
   end
 
   module Payment
@@ -59,7 +60,7 @@ module Gmo
 
         def set_error_messages
           self.error_messages = self.error_info['ErrInfo'].to_s.split(ERROR_INFO_SEPARATOR)
-                                                     .map { |e| error_message(e, locale) || e }
+                                                     .map { |e| self.class.error_message(e, locale) || e }
           self.response_body += "&ErrMessage=#{self.error_messages.join(ERROR_INFO_SEPARATOR)}"
         end
     end
