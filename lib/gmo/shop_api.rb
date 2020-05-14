@@ -255,7 +255,11 @@ module Gmo
       # お客様が入力した情報で後続の決済センターと通信を行い決済を実施し、結果を返します。
       def exec_tran_au(options = {})
         name = "ExecTranAu.idPass"
-        required = [:access_id, :access_pass, :order_id, :commodity, :ret_url, :service_name, :service_tel]
+        if options[:au_accept_code].nil?
+          required = [:access_id, :access_pass, :order_id, :commodity, :ret_url, :service_name, :service_tel]
+        else
+          required = [:access_id, :access_pass, :order_id, :commodity, :service_name, :service_tel]
+        end
         assert_required_options(required, options)
         post_request name, options
       end
@@ -265,7 +269,11 @@ module Gmo
       # お客様が入力した情報で後続の決済センターと通信を行い決済を実施し、結果を返します。
       def exec_tran_docomo(options = {})
         name = "ExecTranDocomo.idPass"
-        required = [:access_id, :access_pass, :order_id, :ret_url]
+        if options[:docomo_accept_code].nil?
+          required = [:access_id, :access_pass, :order_id, :ret_url]
+        else
+          required = [:access_id, :access_pass, :order_id]
+        end
         assert_required_options(required, options)
         post_request name, options
       end
@@ -275,7 +283,11 @@ module Gmo
       # お客様が入力した情報で後続の決済センターと通信を行い決済を実施し、結果を返します。
       def exec_tran_sb(options = {})
         name = "ExecTranSb.idPass"
-        required = [:access_id, :access_pass, :order_id, :ret_url]
+        if options[:sb_accept_code].nil?
+          required = [:access_id, :access_pass, :order_id, :ret_url]
+        else
+          required = [:access_id, :access_pass, :order_id, :item_name]
+        end
         assert_required_options(required, options)
         post_request name, options
       end
@@ -1603,6 +1615,99 @@ module Gmo
         assert_required_options(required, options)
         post_request name, options
       end
+
+      # 27. ドコモ払い随時決済インタフェース仕様
+      # 27.1.2.1. 取引登録
+      def entry_tran_docomo_accept(options = {})
+        name = "EntryTranDocomoAccept.idPass"
+        required = [:order_id]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 27. ドコモ払い随時決済インタフェース仕様
+      # 27.1.2.2. 決済実行
+      def exec_tran_docomo_accept(options = {})
+        name = "ExecTranDocomoAccept.idPass"
+        required = [:access_id, :access_pass, :order_id, :ret_url]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 27. ドコモ払い随時決済インタフェース仕様
+      # 27.2.2.1. 利用承諾終了
+      def docomo_accept_user_end(options = {})
+        name = "DocomoAcceptUserEnd.idPass"
+        required = [:access_id, :access_pass, :order_id, :docomo_accept_code]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 27. ドコモ払い随時決済インタフェース仕様
+      # 27.3.2.1. 取引登録 => 11.1.2.1. 取引登録
+      # 27.3.2.2. 決済実行 => 11.1.2.2. 決済実行
+
+      # 28. auかんたん決済 随時決済インタフェース仕様
+      # 28.1.2.1. 取引登録
+      def entry_tran_au_accept(options = {})
+        name = "EntryTranAuAccept.idPass"
+        required = [:order_id]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 28. auかんたん決済 随時決済インタフェース仕様
+      # 28.1.2.2. 決済実行
+      def exec_tran_au_accept(options = {})
+        name = "ExecTranAuAccept.idPass"
+        required = [:access_id, :access_pass, :order_id, :ret_url, :commodity, :service_name, :service_tel]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 28. auかんたん決済 随時決済インタフェース仕様
+      # 28.2.2.1. 利用承諾終了
+      def au_accept_user_end(options = {})
+        name = "AuAcceptUserEnd.idPass"
+        required = [:access_id, :access_pass, :order_id, :au_accept_code]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 28. auかんたん決済 随時決済インタフェース仕様
+      # 28.3.2.1. 取引登録 => 9.1.2.1. 取引登録
+      # 28.3.2.2. 決済実行 => 9.1.2.2. 決済実行
+
+      # 29. ソフトバンクまとめて支払い(B)随時決済インタフェース仕様
+      # 29.1.2.1. 取引登録
+      def entry_tran_sb_accept(options = {})
+        name = "EntryTranSbAccept.idPass"
+        required = [:order_id]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 29. ソフトバンクまとめて支払い(B)随時決済インタフェース仕様
+      # 29.1.2.2. 決済実行
+      def exec_tran_sb_accept(options = {})
+        name = "ExecTranSbAccept.idPass"
+        required = [:access_id, :access_pass, :order_id, :ret_url]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 29. ソフトバンクまとめて支払い(B)随時決済インタフェース仕様
+      # 29.2.2.1. 利用承諾終了
+      def sb_accept_user_end(options = {})
+        name = "SbAcceptUserEnd.idPass"
+        required = [:access_id, :access_pass, :order_id, :sb_accept_code]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 29. ソフトバンクまとめて支払い(B)随時決済インタフェース仕様
+      # 29.3.2.1. 取引登録 => 13.1.2.1. 取引登録
+      # 29.3.2.2. 決済実行 => 13.1.2.2. 決済実行
 
       #【不正防止サービス(Red)】
       ## 2.1.2.3. 不正審査

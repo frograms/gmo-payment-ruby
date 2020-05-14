@@ -59,6 +59,10 @@ module Gmo
       :deposit_email         => "Mail_Address",
       :deposit_shop_email    => "Shop_Mail_Address",
       :device_category       => "DeviceCategory",
+      :disp_shop_name        => "DispShopName",
+      :disp_phone_number     => "DispPhoneNumber",
+      :disp_mail_address     => "DispMailAddress",
+      :disp_shop_url         => "DispShopUrl",
       :docomo_disp_1         => "DocomoDisp1",
       :docomo_disp_2         => "DocomoDisp2",
       :eddy_add_info_1       => "EdyAddInfo1",
@@ -150,7 +154,11 @@ module Gmo
       :package_name          => "PackageName",
       :account_timing_kbn    => "AccountTimingKbn",
       :account_timing        => "AccountTiming",
-      :first_account_date    => "FirstAccountDate"
+      :first_account_date    => "FirstAccountDate",
+      # 随時決済
+      :docomo_accept_code    => "DocomoAcceptCode",
+      :au_accept_code        => "AuAcceptCode",
+      :sb_accept_code        => "SbAcceptCode",
     }.freeze
 
     API_ERROR_MESSAGES_EN = {
