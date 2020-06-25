@@ -50,6 +50,7 @@ module Gmo
       def initialize(error_info = {}, locale = :en)
         self.error_info = error_info
         self.locale = locale
+        self.locale = I18n.locale if defined?(I18n)
         self.response_body = "ErrCode=#{error_info["ErrCode"]}&ErrInfo=#{error_info["ErrInfo"]}"
         set_error_messages
         message = self.response_body
