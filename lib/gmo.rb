@@ -18,6 +18,19 @@ module Gmo
 
     class API
 
+      class << self
+        def parse_body(body)
+          queries = body.split('&')
+          Hash[
+            queries.map do |q|
+              k, v = q.split('=')
+              v = '' if v.nil?
+              [k, v]
+            end
+          ]
+        end
+      end
+
       def initialize(options = {})
         @host = options[:host]
       end
@@ -38,7 +51,7 @@ module Gmo
           raise Gmo::Payment::ServerError.new(result.body, error_detail)
         end
         # Parse the body as Query string
-        response = Rack::Utils.parse_nested_query(result.body.to_s)
+        response = self.class.parse_body(result.body.to_s)
 
         if path == '/payment/SearchRecurringResultFile.idPass'
           filtered_response = response.keys.first

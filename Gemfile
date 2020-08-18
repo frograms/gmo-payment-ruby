@@ -8,6 +8,8 @@ group :development, :test do
   if RUBY_VERSION >= "1.9.3"
     gem 'guard'
     gem 'guard-rspec'
+    gem 'pry'
+    gem 'pry-byebug'
   end
   gem 'simplecov'
 
