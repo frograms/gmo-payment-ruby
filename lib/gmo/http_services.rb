@@ -40,7 +40,7 @@ module Gmo
 
           http.start do |h|
             response = if verb == "post"
-              h.post(path, encode_params(args))
+              h.post(path, encode_params(args), { 'Content-Type' => 'application/x-www-form-urlencoded' })
             else
               h.get("#{path}?#{encode_params(args)}")
             end
